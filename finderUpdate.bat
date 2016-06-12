@@ -14,10 +14,10 @@ echo Now updating index file.
 REM clear and refresh the searchlog
 echo. > ".\_searchlog.search"
 
-for /r C:\ %%i in (*.*) do echo ^<a href="%%i"^>%%i ^</a^>^<br^> >> .\_searchlog.search
-for /r E:\ %%i in (*.*) do echo ^<a href="%%i"^>%%i ^</a^>^<br^> >> .\_searchlog.search
+dir /b/o/w/s C:\ >> .\_searchlog.search
+dir /b/o/w/s E:\ >> .\_searchlog.search
 
-del /f/s/q ".\_searchlog(you may delete).search"
+del /f/s/q ".\_searchlog.search"
 ren ".\_searchlog.search" "_searchlog(you may delete).search"
 echo indexing is finished
 echo exiting in 3 seconds
