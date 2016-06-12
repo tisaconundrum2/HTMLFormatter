@@ -22,54 +22,54 @@
  *
  */
 
-
-int main(int argc, char* argv[]){
+int main (int argc, char *argv[]){
     /*you should have exactly 3 arguments argv[0]-argv[2]*/
     if(argc != 3){
-        printf ("Usage: cp <file1> <file2>");
+        printf ("Usage: finderFormatHTML.exe <file1> <file2>");
         return 1;
     }
-}
-
-int main(int argc, char* argv[]){
-    if (argc < 3) {
-        perror(argc);
-        return 1;                                                            // check to see if there are file arguments input
-    }
-    char fp1[] = argv[1];
-    char fp2[] = argv[2];
+    FILE *ifile = fopen(argv[1], "r");
+    FILE *ofile = fopen(argv[2], "w+");
     char buffer[1024];
-    FILE *input_file = fopen(fp1, 'r');
-    FILE *output_file = fopen(fp2, 'w');
-    // ======================================
-
-    if (input != NULL){
-        //read one line from the file and put it into the buffer
-        while (fgets(buffer, sizeof buffer, fp) != NULL){
-            fprintf(stdout, "%s", buffer);
-            //<p><a href = "var_here">var_here</a>
-            //v[0] = <p><a href = "
-            //v[1] = var_here
-            //v[2] = ">
-            //v[3] = </a>
-            // v[0],v[1],v[2],v[1],v[3]
-            char *v[3];
-            v[0] = "<p><a href = '";
-            v[1] = buffer;
-            v[2] = "'>";
-            v[3] = "</a>";
-            fprintf(output_file, "%s","%s","%s","%s","%s",v[0],v[1],v[2],v[1],v[3]);
-
-        }
-    } else {
-        perror(filename1); //print the error message on stderr.
+    char *v[4];
+    //===================================
+    if (ifile == NULL){
+        printf("Your input file %s: ", argv[1]);
+        perror(ifile);
         return 1;
     }
+
+    if (ofile == NULL){
+        printf("Your output file %s: ", argv[2]);
+        perror(ofile);
+        return 1;
+    }
+
+    while (fgets(buffer, sizeof buffer, ifile)!= NULL){
+        //<p><a href = "var_here">var_here</a>
+        //v[0] = <p><a href = "
+        //v[1] = var_here
+        //v[2] = ">
+        //v[3] = </a>
+        // v[0],v[1],v[2],v[1],v[3]
+        size_t ln = strlen(buffer) -1;
+        if (buffer[ln] == '\n')
+            buffer[ln] ='\0';
+        v[0] = "<p><a href = '";
+        v[1] = buffer;
+        v[2] = "'>";
+        v[3] = "</a>\n";
+        fprintf(ofile,"%s", v[0]);
+        fprintf(ofile,"%s", v[1]);
+        fprintf(ofile,"%s", v[2]);
+        fprintf(ofile,"%s", v[1]);
+        fprintf(ofile,"%s", v[3]);
+
+    }
+    fclose(ifile);
+    fclose(ofile);
     return 0;
 }
-
-
-
 
 /*         create a buffer
  *
@@ -86,18 +86,6 @@ int main(int argc, char* argv[]){
  * add the content into the buffer to be written later
  * we then use another while loop to lseek to the end of the file
  *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
+ */
 
 
